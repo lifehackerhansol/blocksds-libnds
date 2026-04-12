@@ -32,9 +32,9 @@ BEGIN_ASM_FUNC swiSoftReset
 
 #ifdef ARM7
 
+    // Load execute address to lr before we clear all registers
     ldr     r0, =0x2FFFE34
-    ldr     r0, [r0]
-    bx      r0
+    ldr     lr, [r0]
 
 #endif
 
@@ -52,10 +52,28 @@ BEGIN_ASM_FUNC swiSoftReset
     // Wait for write buffer to empty
     mcr     CP15_REG7_DRAIN_WRITE_BUFFER
 
+    // Load execute address to lr before we clear all registers
     ldr     r0, =0x2FFFE24
-    ldr     r0, [r0]
-    bx      r0
+    ldr     lr, [r0]
 
 #endif
+
+    // Clear registers
+    mov     r0, #0
+    mov     r1, r0
+    mov     r2, r0
+    mov     r3, r0
+    mov     r4, r0
+    mov     r5, r0
+    mov     r6, r0
+    mov     r7, r0
+    mov     r8, r0
+    mov     r9, r0
+    mov     r10, r0
+    mov     r11, r0
+    mov     r12, r0
+
+    // Reset to the executable address
+    bx      lr
 
     .pool
