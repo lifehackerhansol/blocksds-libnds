@@ -22,9 +22,13 @@
 
 BEGIN_ASM_FUNC swiSoftReset
 
-    // Disable interrupts (REG_IME = 0)
+    // Disable interrupts (REG_IME = 0, REG_IE = 0, REG_IF = 0xFFFFFFFF)
     mov     r0, #0x4000000
-    str     r0, [r0, #0x208]
+    mov     r1, #0
+    str     r1, [r0, #0x208]
+    mov     r1, [r0, #0x210]
+    mvn     r1, r1
+    mov     r1, [r0, #0x214]
 
 #ifdef ARM7
 
